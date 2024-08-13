@@ -46,6 +46,9 @@
     "test:integration": "vitest run integration --coverage",
     "test:unit": "vitest run unit --coverage"
   },
+  "dependencies": {
+    "fastify": "4.28.1"
+  },
   "devDependencies": {
     "@2bad/tsconfig": "3.0.1",
     "@2bad/tsfix": "0.1.0",
