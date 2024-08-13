@@ -1,19 +1,15 @@
 {
-  "name": "@2bad/ts-lib-starter",
+  "name": "@2bad/mire",
   "version": "1.0.0",
   "description": "",
-  "keywords": [
-    "template",
-    "typescript",
-    "starter"
-  ],
-  "homepage": "https://github.com/2BAD/ts-lib-starter#readme",
+  "keywords": [],
+  "homepage": "https://github.com/2BAD/mire#readme",
   "bugs": {
-    "url": "https://github.com/2BAD/ts-lib-starter/issues"
+    "url": "https://github.com/2BAD/mire/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/2BAD/ts-lib-starter.git"
+    "url": "git+https://github.com/2BAD/mire.git"
   },
   "license": "MIT",
   "author": "2BAD (https://github.com/2BAD)",
@@ -42,7 +38,7 @@
     "fix": "run-s fix:code fix:format",
     "fix:alias": "tsc-alias -p tsconfig.build.json",
     "fix:code": "run-s 'check:code -- --fix'",
-    "fix:ext": "./fix-ext.sh",
+    "fix:ext": "tsfix",
     "fix:format": "biome format --write ./source",
     "prepublishOnly": "run-s build",
     "preversion": "run-s check test build",
@@ -52,6 +48,7 @@
   },
   "devDependencies": {
     "@2bad/tsconfig": "3.0.1",
+    "@2bad/tsfix": "0.1.0",
     "@biomejs/biome": "1.8.3",
     "@swc/cli": "0.4.0",
     "@swc/core": "1.7.10",
