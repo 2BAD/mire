@@ -5,6 +5,9 @@ const MAX_DELAY = 5000
 
 const server = fastify()
 
+// Global variable to store memory leaks
+const memoryLeaks: unknown[] = []
+
 // Route 0: Check if server is running
 server.get('/ping', async () => {
   return 'pong\n'
@@ -64,6 +67,43 @@ server.get<{Querystring:{duration: string, maxLoad: string}}>('/cpu/load', async
   const averageLoad = totalLoad / cycles
 
   return `Random CPU load simulated for ${duration} ms. Average load: ${averageLoad.toFixed(2)}%\n`
+})
+
+// Route 4: Get current memory usage
+server.get('/memory', async () => {
+  const used = process.memoryUsage()
+  return {
+    rss: `${Math.round(used.rss / 1024 / 1024 * 100) / 100} MB`,
+    heapTotal: `${Math.round(used.heapTotal / 1024 / 1024 * 100) / 100} MB`,
+    heapUsed: `${Math.round(used.heapUsed / 1024 / 1024 * 100) / 100} MB`,
+    external: `${Math.round(used.external / 1024 / 1024 * 100) / 100} MB`,
+    arrayBuffers: `${Math.round(used.arrayBuffers / 1024 / 1024 * 100) / 100} MB`,
+  }
+})
+
+// Route 5: Create a memory leak
+server.get<{Querystring:{size: string, count: string}}>('/memory/leak', async (request) => {
+  const size = parseInt(request.query.size, 10) || 1024 * 1024 // Default to 1MB
+  const count = parseInt(request.query.count, 10) || 1
+
+  for (let i = 0; i < count; i++) {
+    const leak = Buffer.alloc(size)
+    memoryLeaks.push(leak)
+  }
+
+  return `Created ${count} memory leak(s) of size ${size} bytes each\n`
+})
+
+// Route 6: Allocate memory
+server.get<{Querystring:{size: string}}>('/memory/allocate', async (request) => {
+  const size = parseInt(request.query.size, 10) || 1024 * 1024 // Default to 1MB
+
+  const buffer = Buffer.alloc(size)
+
+  // We need to use the buffer to prevent it from being garbage collected immediately
+  buffer.write('Memory allocated', 0)
+
+  return `Allocated ${size} bytes of memory\n`
 })
 
 server.listen({ port: PORT }, (err, address) => {
