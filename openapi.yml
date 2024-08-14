@@ -1,0 +1,205 @@
+openapi: 3.1.0
+info:
+  title: Performance Testing API
+  description: An API for simulating various performance scenarios including CPU load, memory usage, and I/O operations.
+  version: 1.0.0
+servers:
+  - url: http://localhost:3000
+paths:
+  /ping:
+    get:
+      summary: Check if server is running
+      responses:
+        '200':
+          description: Server is running
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "pong\n"
+
+  /delay/{ms}:
+    get:
+      summary: Delayed response
+      parameters:
+        - name: ms
+          in: path
+          required: true
+          schema:
+            type: integer
+            description: Delay in milliseconds
+      responses:
+        '200':
+          description: Delayed response
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Response delayed by 1000 ms\n"
+
+  /cpu/compute/{n}:
+    get:
+      summary: Compute Fibonacci number
+      parameters:
+        - name: n
+          in: path
+          required: true
+          schema:
+            type: integer
+            description: The nth Fibonacci number to compute
+      responses:
+        '200':
+          description: Computed Fibonacci number
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Fibonacci(40) = 102334155\n"
+
+  /cpu/load:
+    get:
+      summary: Simulate random CPU usage
+      parameters:
+        - name: duration
+          in: query
+          schema:
+            type: integer
+            description: Duration of the simulation in milliseconds
+            default: 10000
+        - name: maxLoad
+          in: query
+          schema:
+            type: integer
+            description: Maximum CPU load percentage
+            default: 100
+      responses:
+        '200':
+          description: CPU load simulation results
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Random CPU load simulated for 10000 ms. Average load: 50.25%\n"
+
+  /memory:
+    get:
+      summary: Get current memory usage
+      responses:
+        '200':
+          description: Current memory usage
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  rss:
+                    type: string
+                  heapTotal:
+                    type: string
+                  heapUsed:
+                    type: string
+                  external:
+                    type: string
+                  arrayBuffers:
+                    type: string
+
+  /memory/leak:
+    get:
+      summary: Create a memory leak
+      parameters:
+        - name: size
+          in: query
+          schema:
+            type: string
+            description: Size of each memory leak (e.g., "1MB")
+            default: "1MB"
+        - name: count
+          in: query
+          schema:
+            type: integer
+            description: Number of memory leaks to create
+            default: 1
+      responses:
+        '200':
+          description: Memory leak created
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Created 1 memory leak(s) of size 1048576 bytes each\n"
+
+  /memory/allocate:
+    get:
+      summary: Allocate memory
+      parameters:
+        - name: size
+          in: query
+          schema:
+            type: string
+            description: Size of memory to allocate (e.g., "1MB")
+            default: "1MB"
+      responses:
+        '200':
+          description: Memory allocated
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Allocated 1048576 bytes of memory\n"
+
+  /io/read:
+    get:
+      summary: Simulate file read operation
+      parameters:
+        - name: size
+          in: query
+          schema:
+            type: string
+            description: Size of file to read (e.g., "1MB")
+            default: "1MB"
+      responses:
+        '200':
+          description: File read operation results
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Read 1048576 bytes in 5 ms\n"
+
+  /io/write:
+    get:
+      summary: Simulate file write operation
+      parameters:
+        - name: size
+          in: query
+          schema:
+            type: string
+            description: Size of file to write (e.g., "1MB")
+            default: "1MB"
+      responses:
+        '200':
+          description: File write operation results
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Wrote 1048576 bytes in 10 ms\n"
+
+  /io/network:
+    get:
+      summary: Simulate network request
+      parameters:
+        - name: url
+          in: query
+          schema:
+            type: string
+            description: URL to fetch
+            default: "https://test.k6.io"
+      responses:
+        '200':
+          description: Network request results
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Fetched https://test.k6.io in 200 ms\n"
