@@ -2,6 +2,7 @@ import fastify from 'fastify'
 import fs from 'node:fs/promises'
 import os from 'node:os'
 import path from 'node:path'
+import { parseSize } from './utils/parseSize.ts'
 
 const PORT = 3000
 const MAX_DELAY = 5000
@@ -87,7 +88,7 @@ server.get('/memory', async () => {
 
 // Route 5: Create a memory leak
 server.get<{ Querystring: { size: string; count: string } }>('/memory/leak', async (request) => {
-  const size = Number.parseInt(request.query.size, 10) || 1024 * 1024 // Default to 1MB
+  const size = parseSize(request.query.size || '1MB')
   const count = Number.parseInt(request.query.count, 10) || 1
 
   for (let i = 0; i < count; i++) {
@@ -100,7 +101,7 @@ server.get<{ Querystring: { size: string; count: string } }>('/memory/leak', asy
 
 // Route 6: Allocate memory
 server.get<{ Querystring: { size: string } }>('/memory/allocate', async (request) => {
-  const size = Number.parseInt(request.query.size, 10) || 1024 * 1024 // Default to 1MB
+  const size = parseSize(request.query.size || '1MB')
 
   const buffer = Buffer.alloc(size)
 
@@ -112,7 +113,7 @@ server.get<{ Querystring: { size: string } }>('/memory/allocate', async (request
 
 // Route 7: Simulate file read operation
 server.get<{ Querystring: { size: string } }>('/io/read', async (request) => {
-  const size = Number.parseInt(request.query.size, 10) || 1024 * 1024 // Default to 1MB
+  const size = parseSize(request.query.size || '1MB')
   const filePath = path.join(os.tmpdir(), 'temp_read_file.txt')
 
   // Create a file with random data
@@ -129,7 +130,7 @@ server.get<{ Querystring: { size: string } }>('/io/read', async (request) => {
 
 // Route 8: Simulate file write operation
 server.get<{ Querystring: { size: string } }>('/io/write', async (request) => {
-  const size = Number.parseInt(request.query.size, 10) || 1024 * 1024 // Default to 1MB
+  const size = parseSize(request.query.size || '1MB')
   const filePath = path.join(os.tmpdir(), 'temp_write_file.txt')
 
   const start = Date.now()
