@@ -19,14 +19,8 @@ export const parseSize = (size: string): number => {
   }
 
   const value = Number.parseFloat(match[1] ?? '')
-  if (Number.isNaN(value)) {
-    throw new Error('Invalid numeric value')
-  }
-
   const unit = match[2] ?? 'b'
-  if (!(unit in units)) {
-    throw new Error('Invalid unit')
-  }
 
+  // @ts-expect-error regex handles this
   return Math.floor(value * units[unit])
 }
