@@ -14,15 +14,15 @@ server.get('/ping', async () => {
 })
 
 // Route 1: Delayed response
-server.get<{Params:{ms: string}}>('/delay/:ms', async (request) => {
-  const ms = parseInt(request.params.ms, 10) || Math.trunc(Math.random() * MAX_DELAY)
-  await new Promise(resolve => setTimeout(resolve, ms))
+server.get<{ Params: { ms: string } }>('/delay/:ms', async (request) => {
+  const ms = Number.parseInt(request.params.ms, 10) || Math.trunc(Math.random() * MAX_DELAY)
+  await new Promise((resolve) => setTimeout(resolve, ms))
   return `Response delayed by ${ms} ms\n`
 })
 
 // Route 2: CPU-intensive work
-server.get<{Params:{n: string}}>('/cpu/compute/:n', async (request) => {
-  const n = parseInt(request.params.n, 10) || 40
+server.get<{ Params: { n: string } }>('/cpu/compute/:n', async (request) => {
+  const n = Number.parseInt(request.params.n, 10) || 40
 
   // eslint-disable-next-line jsdoc/require-jsdoc
   const fibonacci = (num: number): number => {
@@ -35,9 +35,9 @@ server.get<{Params:{n: string}}>('/cpu/compute/:n', async (request) => {
 })
 
 // Route 3: Simulate random CPU usage
-server.get<{Querystring:{duration: string, maxLoad: string}}>('/cpu/load', async (request) => {
-  const duration = parseInt(request.query.duration, 10) || 10000 // Default to 10 seconds
-  const maxLoad = parseInt(request.query.maxLoad, 10) || 100 // Default to 100% max load
+server.get<{ Querystring: { duration: string; maxLoad: string } }>('/cpu/load', async (request) => {
+  const duration = Number.parseInt(request.query.duration, 10) || 10000 // Default to 10 seconds
+  const maxLoad = Number.parseInt(request.query.maxLoad, 10) || 100 // Default to 100% max load
 
   const start = Date.now()
   let totalLoad = 0
@@ -48,7 +48,8 @@ server.get<{Querystring:{duration: string, maxLoad: string}}>('/cpu/load', async
     const targetLoad = Math.random() * maxLoad
 
     // Perform CPU-intensive work
-    while (Date.now() - cycleStart < 100) { // 100ms cycles
+    // 100ms cycles
+    while (Date.now() - cycleStart < 100) {
       for (let i = 0; i < 10000; i++) {
         Math.sqrt(i)
       }
@@ -58,7 +59,7 @@ server.get<{Querystring:{duration: string, maxLoad: string}}>('/cpu/load', async
     const elapsed = Date.now() - cycleStart
     const sleepTime = Math.max(0, 100 * (1 - targetLoad / 100) - (elapsed % 100))
     // eslint-disable-next-line @typescript-eslint/no-loop-func
-    await new Promise(resolve => setTimeout(resolve, sleepTime))
+    await new Promise((resolve) => setTimeout(resolve, sleepTime))
 
     totalLoad += targetLoad
     cycles++
@@ -73,18 +74,18 @@ server.get<{Querystring:{duration: string, maxLoad: string}}>('/cpu/load', async
 server.get('/memory', async () => {
   const used = process.memoryUsage()
   return {
-    rss: `${Math.round(used.rss / 1024 / 1024 * 100) / 100} MB`,
-    heapTotal: `${Math.round(used.heapTotal / 1024 / 1024 * 100) / 100} MB`,
-    heapUsed: `${Math.round(used.heapUsed / 1024 / 1024 * 100) / 100} MB`,
-    external: `${Math.round(used.external / 1024 / 1024 * 100) / 100} MB`,
-    arrayBuffers: `${Math.round(used.arrayBuffers / 1024 / 1024 * 100) / 100} MB`,
+    rss: `${Math.round((used.rss / 1024 / 1024) * 100) / 100} MB`,
+    heapTotal: `${Math.round((used.heapTotal / 1024 / 1024) * 100) / 100} MB`,
+    heapUsed: `${Math.round((used.heapUsed / 1024 / 1024) * 100) / 100} MB`,
+    external: `${Math.round((used.external / 1024 / 1024) * 100) / 100} MB`,
+    arrayBuffers: `${Math.round((used.arrayBuffers / 1024 / 1024) * 100) / 100} MB`
   }
 })
 
 // Route 5: Create a memory leak
-server.get<{Querystring:{size: string, count: string}}>('/memory/leak', async (request) => {
-  const size = parseInt(request.query.size, 10) || 1024 * 1024 // Default to 1MB
-  const count = parseInt(request.query.count, 10) || 1
+server.get<{ Querystring: { size: string; count: string } }>('/memory/leak', async (request) => {
+  const size = Number.parseInt(request.query.size, 10) || 1024 * 1024 // Default to 1MB
+  const count = Number.parseInt(request.query.count, 10) || 1
 
   for (let i = 0; i < count; i++) {
     const leak = Buffer.alloc(size)
@@ -95,8 +96,8 @@ server.get<{Querystring:{size: string, count: string}}>('/memory/leak', async (r
 })
 
 // Route 6: Allocate memory
-server.get<{Querystring:{size: string}}>('/memory/allocate', async (request) => {
-  const size = parseInt(request.query.size, 10) || 1024 * 1024 // Default to 1MB
+server.get<{ Querystring: { size: string } }>('/memory/allocate', async (request) => {
+  const size = Number.parseInt(request.query.size, 10) || 1024 * 1024 // Default to 1MB
 
   const buffer = Buffer.alloc(size)
 
