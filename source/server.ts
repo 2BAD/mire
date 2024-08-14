@@ -18,7 +18,7 @@ server.get<{Params:{ms: string}}>('/delay/:ms', async (request) => {
 })
 
 // Route 2: CPU-intensive work
-server.get<{Params:{n: string}}>('/compute/:n', async (request) => {
+server.get<{Params:{n: string}}>('/cpu/compute/:n', async (request) => {
   const n = parseInt(request.params.n, 10) || 40
 
   // eslint-disable-next-line jsdoc/require-jsdoc
@@ -29,6 +29,41 @@ server.get<{Params:{n: string}}>('/compute/:n', async (request) => {
 
   const result = fibonacci(n)
   return `Fibonacci(${n}) = ${result}\n`
+})
+
+// Route 3: Simulate random CPU usage
+server.get<{Querystring:{duration: string, maxLoad: string}}>('/cpu/load', async (request) => {
+  const duration = parseInt(request.query.duration, 10) || 10000 // Default to 10 seconds
+  const maxLoad = parseInt(request.query.maxLoad, 10) || 100 // Default to 100% max load
+
+  const start = Date.now()
+  let totalLoad = 0
+  let cycles = 0
+
+  while (Date.now() - start < duration) {
+    const cycleStart = Date.now()
+    const targetLoad = Math.random() * maxLoad
+
+    // Perform CPU-intensive work
+    while (Date.now() - cycleStart < 100) { // 100ms cycles
+      for (let i = 0; i < 10000; i++) {
+        Math.sqrt(i)
+      }
+    }
+
+    // Sleep for the remaining time to achieve target load
+    const elapsed = Date.now() - cycleStart
+    const sleepTime = Math.max(0, 100 * (1 - targetLoad / 100) - (elapsed % 100))
+    // eslint-disable-next-line @typescript-eslint/no-loop-func
+    await new Promise(resolve => setTimeout(resolve, sleepTime))
+
+    totalLoad += targetLoad
+    cycles++
+  }
+
+  const averageLoad = totalLoad / cycles
+
+  return `Random CPU load simulated for ${duration} ms. Average load: ${averageLoad.toFixed(2)}%\n`
 })
 
 server.listen({ port: PORT }, (err, address) => {
