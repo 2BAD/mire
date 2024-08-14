@@ -42,6 +42,7 @@
     "fix:format": "biome format --write ./source",
     "prepublishOnly": "run-s build",
     "preversion": "run-s check test build",
+    "start": "node ./build/server.js",
     "test": "vitest run",
     "test:integration": "vitest run integration --coverage",
     "test:unit": "vitest run unit --coverage"
