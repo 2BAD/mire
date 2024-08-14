@@ -1,4 +1,7 @@
-import fastify from 'fastify';
+import fastify from 'fastify'
+import fs from 'node:fs/promises'
+import os from 'node:os'
+import path from 'node:path'
 
 const PORT = 3000
 const MAX_DELAY = 5000
@@ -105,6 +108,49 @@ server.get<{ Querystring: { size: string } }>('/memory/allocate', async (request
   buffer.write('Memory allocated', 0)
 
   return `Allocated ${size} bytes of memory\n`
+})
+
+// Route 7: Simulate file read operation
+server.get<{ Querystring: { size: string } }>('/io/read', async (request) => {
+  const size = Number.parseInt(request.query.size, 10) || 1024 * 1024 // Default to 1MB
+  const filePath = path.join(os.tmpdir(), 'temp_read_file.txt')
+
+  // Create a file with random data
+  await fs.writeFile(filePath, Buffer.alloc(size).fill('A'))
+
+  const start = Date.now()
+  await fs.readFile(filePath)
+  const duration = Date.now() - start
+
+  await fs.unlink(filePath) // Clean up the file
+
+  return `Read ${size} bytes in ${duration} ms\n`
+})
+
+// Route 8: Simulate file write operation
+server.get<{ Querystring: { size: string } }>('/io/write', async (request) => {
+  const size = Number.parseInt(request.query.size, 10) || 1024 * 1024 // Default to 1MB
+  const filePath = path.join(os.tmpdir(), 'temp_write_file.txt')
+
+  const start = Date.now()
+  await fs.writeFile(filePath, Buffer.alloc(size).fill('A'))
+  const duration = Date.now() - start
+
+  await fs.unlink(filePath) // Clean up the file
+
+  return `Wrote ${size} bytes in ${duration} ms\n`
+})
+
+// Route 9: Simulate network request
+server.get<{ Querystring: { url: string } }>('/io/network', async (request) => {
+  const url = request.query.url || 'https://test.k6.io'
+
+  const start = Date.now()
+  const response = await fetch(url)
+  await response.text()
+  const duration = Date.now() - start
+
+  return `Fetched ${url} in ${duration} ms\n`
 })
 
 server.listen({ port: PORT }, (err, address) => {
