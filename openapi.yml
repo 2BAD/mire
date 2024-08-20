@@ -1,6 +1,6 @@
 openapi: 3.1.0
 info:
-  title: Performance Testing API
+  title: Load Simulation API
   description: An API for simulating various performance scenarios including CPU load, memory usage, and I/O operations.
   version: 1.0.0
 servers:
