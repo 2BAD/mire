@@ -59,6 +59,7 @@ export const simulateCPULoad = async (duration: number, maxLoad: number): Promis
 
     const elapsed = Date.now() - cycleStart
     const sleepTime = Math.max(0, 100 * (1 - targetLoad / 100) - (elapsed % 100))
+    // eslint-disable-next-line @typescript-eslint/no-loop-func
     await new Promise((resolve) => setTimeout(resolve, sleepTime))
 
     totalLoad += targetLoad
