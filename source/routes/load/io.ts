@@ -1,5 +1,5 @@
 import type { FastifyPluginAsync } from 'fastify'
-import * as sim from '../simulate/load.ts'
+import * as sim from '~/simulate/load.ts'
 
 // eslint-disable-next-line jsdoc/require-jsdoc
 export const ioRoutes: FastifyPluginAsync = async (fastify) => {
