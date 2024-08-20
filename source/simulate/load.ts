@@ -1,7 +1,7 @@
 import fs from 'node:fs/promises'
 import os from 'node:os'
 import path from 'node:path'
-import { parseSize } from '../utils/parseSize.ts'
+import { parseSize } from '~/utils/parseSize.ts'
 
 const MAX_DELAY = 5000
 const memoryLeaks: unknown[] = []
