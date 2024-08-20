@@ -37,7 +37,6 @@ This project provides a simple API for simulating various performance scenarios,
 
 3. Start the server:
    ```
-   npm run build
    npm run start
    ```
 
@@ -82,7 +81,6 @@ For more detailed information about the API endpoints, refer to the OpenAPI spec
 The following environment variables can be used to configure the server:
 
 - `PORT`: The port number on which the server will listen (default: 3000)
-- `MAX_DELAY`: The maximum delay in milliseconds for the `/delay` endpoint (default: 5000)
 
 ## Contributing
 
