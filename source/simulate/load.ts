@@ -1,3 +1,5 @@
+import { createCanvas } from 'canvas'
+import { createHash } from 'node:crypto'
 import fs from 'node:fs/promises'
 import os from 'node:os'
 import path from 'node:path'
@@ -16,6 +18,66 @@ export const delayResponse = async (ms: number): Promise<string> => {
   const delay = ms || Math.trunc(Math.random() * MAX_DELAY)
   await new Promise((resolve) => setTimeout(resolve, delay))
   return `Response delayed by ${delay} ms\n`
+}
+
+/**
+ * Generates a colorful image based on input complexity and name.
+ * The generation process is intentionally slowed down to simulate a complex operation.
+ *
+ * @async
+ * @param complexity - Determines the complexity of the image and the time taken to generate it.
+ *                              The generation time is equal to `complexity` in seconds.
+ * @param [name] - An optional name used to create a deterministic hash for the image.
+ * @returns A promise that resolves to a Buffer containing the JPEG image data.
+ *
+ * @description
+ * This function creates a 300x300 pixel image with the following characteristics:
+ * - The background color is derived from the first 6 characters of a SHA256 hash.
+ * - Five circles are drawn on top of the background, with colors and positions also derived from the hash.
+ * - The hash is created using the `complexity` and `name` parameters, ensuring deterministic results.
+ * - The function artificially delays its execution to simulate a complex operation.
+ *
+ * @example
+ * // Generate a simple image (1 second delay)
+ * const simpleImage = await slowImageGeneration(1);
+ *
+ * @example
+ * // Generate a more complex image (5 second delay) with a custom name
+ * const complexImage = await slowImageGeneration(5, 'custom-name');
+ */
+export const slowImageGeneration = async (complexity: number, name = 'default'): Promise<Buffer> => {
+  return await new Promise((resolve) => {
+    setTimeout(() => {
+      // Generate a deterministic hash based on the complexity
+      const hash = createHash('sha256').update(`complex-result-${name}-${complexity}`).digest('hex')
+
+      // Use the hash to create a colorful image
+      const canvas = createCanvas(300, 300)
+      const ctx = canvas.getContext('2d')
+
+      // Fill background
+      ctx.fillStyle = `#${hash.slice(0, 6)}`
+      ctx.fillRect(0, 0, 300, 300)
+
+      // Draw some shapes based on the hash
+      for (let i = 0; i < 5; i++) {
+        ctx.fillStyle = `#${hash.slice(i * 6, (i + 1) * 6)}`
+        ctx.beginPath()
+        ctx.arc(
+          parseInt(hash.slice(i * 2, i * 2 + 2), 16) * 300 / 255,
+          parseInt(hash.slice(i * 2 + 2, i * 2 + 4), 16) * 300 / 255,
+          20 + i * 10,
+          0,
+          Math.PI * 2
+        )
+        ctx.fill()
+      }
+
+      // Convert canvas to buffer
+      const buffer = canvas.toBuffer('image/jpeg')
+      resolve(buffer as Buffer)
+    }, complexity * 1000) // Operation takes 'complexity' seconds to complete
+  })
 }
 
 /**

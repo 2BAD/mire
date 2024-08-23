@@ -49,6 +49,7 @@
     "test:unit": "vitest run unit --coverage"
   },
   "dependencies": {
+    "canvas": "3.0.0-rc2",
     "fastify": "4.28.1",
     "prexit": "2.3.0"
   },
