@@ -3,10 +3,6 @@ import * as sim from '~/simulate/load.ts'
 
 // eslint-disable-next-line jsdoc/require-jsdoc
 export const cpuRoutes: FastifyPluginAsync = async (fastify) => {
-  fastify.get<{ Params: { ms: string } }>('/delay/:ms', async (request) => {
-    return await sim.delayResponse(Number.parseInt(request.params.ms, 10))
-  })
-
   fastify.get<{ Params: { n: string } }>('/cpu/compute/:n', async (request) => {
     return sim.computeFibonacci(Number.parseInt(request.params.n, 10) || 40)
   })
