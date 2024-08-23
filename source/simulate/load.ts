@@ -21,20 +21,22 @@ export const delayResponse = async (ms: number): Promise<string> => {
 }
 
 /**
- * Generates a colorful image based on input complexity and name.
+ * Generates a colorful image based on input complexity, name, and optionally the current date.
  * The generation process is intentionally slowed down to simulate a complex operation.
  *
  * @async
  * @param complexity - Determines the complexity of the image and the time taken to generate it.
  *                              The generation time is equal to `complexity` in seconds.
  * @param [name] - An optional name used to create a deterministic hash for the image.
+ * @param [useDateInHash] - If true, includes the current date (YYYY-MM-DD) in the hash calculation.
+ * @param [customDate] - Optional custom date to use instead of the current date when useDateInHash is true.
  * @returns A promise that resolves to a Buffer containing the JPEG image data.
  *
  * @description
  * This function creates a 300x300 pixel image with the following characteristics:
  * - The background color is derived from the first 6 characters of a SHA256 hash.
  * - Five circles are drawn on top of the background, with colors and positions also derived from the hash.
- * - The hash is created using the `complexity` and `name` parameters, ensuring deterministic results.
+ * - The hash is created using the `complexity`, `name`, and optionally the current date, ensuring deterministic results.
  * - The function artificially delays its execution to simulate a complex operation.
  *
  * @example
@@ -42,14 +44,31 @@ export const delayResponse = async (ms: number): Promise<string> => {
  * const simpleImage = await slowImageGeneration(1);
  *
  * @example
- * // Generate a more complex image (5 second delay) with a custom name
- * const complexImage = await slowImageGeneration(5, 'custom-name');
+ * // Generate a more complex image (5 second delay) with a custom name and date-based hash
+ * const complexImage = await slowImageGeneration(5, 'custom-name', true);
+ *
+ * @example
+ * // Generate an image with a specific date
+ * const specificDateImage = await slowImageGeneration(3, 'test', true, new Date('2023-05-15'));
  */
-export const slowImageGeneration = async (complexity: number, name = 'default'): Promise<Buffer> => {
+export const slowImageGeneration = async (
+  complexity: number,
+  name = 'default',
+  useDateInHash = false,
+  customDate?: Date
+): Promise<Buffer> => {
   return await new Promise((resolve) => {
     setTimeout(() => {
-      // Generate a deterministic hash based on the complexity
-      const hash = createHash('sha256').update(`complex-result-${name}-${complexity}`).digest('hex')
+      // Generate a deterministic hash based on the complexity, name, and optionally the date
+      let hashInput = `complex-result-${name}-${complexity}`
+
+      if (useDateInHash) {
+        const dateToUse = customDate ?? new Date()
+        const dateString = dateToUse.toISOString().split('T')[0] // YYYY-MM-DD
+        hashInput += `-${dateString}`
+      }
+
+      const hash = createHash('sha256').update(hashInput).digest('hex')
 
       // Use the hash to create a colorful image
       const canvas = createCanvas(300, 300)
