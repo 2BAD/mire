@@ -3,8 +3,8 @@ import * as sim from '~/simulate/load.ts'
 
 // eslint-disable-next-line jsdoc/require-jsdoc
 export const timeRoutes: FastifyPluginAsync = async (fastify) => {
-  fastify.get<{ Params: { ms: string } }>('/time/delay/:ms', async (request) => {
-    return await sim.delayResponse(Number.parseInt(request.params.ms, 10))
+  fastify.get<{ Querystring: { ms: string } }>('/time/delay', async (request) => {
+    return await sim.delayResponse(Number.parseInt(request.query.ms, 10) || 0)
   })
 }
 
