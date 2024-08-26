@@ -1,10 +1,13 @@
 openapi: 3.1.0
+
 info:
   title: Load Simulation API
   description: An API for simulating various performance scenarios including CPU load, memory usage, and I/O operations.
   version: 1.0.0
+
 servers:
   - url: http://localhost:3000
+
 paths:
   /ping:
     get:
@@ -18,13 +21,12 @@ paths:
                 type: string
                 example: "pong\n"
 
-  /delay/{ms}:
+  /time/delay:
     get:
       summary: Delayed response
       parameters:
         - name: ms
-          in: path
-          required: true
+          in: query
           schema:
             type: integer
             description: Delay in milliseconds
@@ -37,13 +39,12 @@ paths:
                 type: string
                 example: "Response delayed by 1000 ms\n"
 
-  /cpu/compute/{n}:
+  /cpu/compute:
     get:
       summary: Compute Fibonacci number
       parameters:
         - name: n
-          in: path
-          required: true
+          in: query
           schema:
             type: integer
             description: The nth Fibonacci number to compute
@@ -203,3 +204,67 @@ paths:
               schema:
                 type: string
                 example: "Fetched https://test.k6.io in 200 ms\n"
+
+  /problems/slow-image:
+    get:
+      summary: Generate a slow-loading image
+      parameters:
+        - name: complexity
+          in: query
+          schema:
+            type: integer
+            description: Complexity of the image generation (affects processing time)
+            default: 1
+        - name: name
+          in: query
+          schema:
+            type: string
+            description: Name used for generating the image
+            default: "default"
+      responses:
+        '200':
+          description: Generated image
+          content:
+            image/jpeg:
+              schema:
+                type: string
+                format: binary
+          headers:
+            X-Processing-Time:
+              schema:
+                type: number
+              description: Processing time in milliseconds
+            X-Timestamp:
+              schema:
+                type: string
+              description: Timestamp of the request
+
+  /problems/slow-image-gallery:
+    get:
+      summary: Display a gallery of slow-loading images
+      responses:
+        '200':
+          description: HTML page with slow-loading image gallery
+          content:
+            text/html:
+              schema:
+                type: string
+
+  /problems/limited-connections/pool/{ms}:
+    get:
+      summary: Simulate limited connections with a connection pool
+      parameters:
+        - name: ms
+          in: path
+          required: true
+          schema:
+            type: integer
+            description: Delay in milliseconds
+      responses:
+        '200':
+          description: Delayed response from connection pool
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Response delayed by 1000 ms\n"
