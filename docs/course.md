@@ -52,47 +52,113 @@
 - Creating a Docker Compose file for nginx and our application
 - Running and testing the proxied setup
 
-## Class 8: Basic Monitoring and Logging
 
-- Importance of monitoring in DevOps
-- Using our application's endpoints for monitoring (/cpu/load, /memory, etc.)
-- Viewing and managing logs from nginx and our application
-- Introduction to basic monitoring tools
+## Class 8: Load Testing and Performance Analysis
+- Introduction to load testing concepts
+- Overview of load testing tools:
+  - wrk
+  - k6
+  - Artillery
+- Hands-on practice with selected tool(s)
+- Understanding and addressing the Coordinated Omission Problem
+- Best practices for accurate load testing
 
-## Class 9: Simple CI/CD Pipeline
+Homework:
+- Conduct load tests on the application using at least two different tools
+- Compare results and analyze differences
+- Identify and explain any instances of the Coordinated Omission Problem
+- Propose optimizations based on load test results
 
-- Introduction to Continuous Integration/Continuous Deployment
-- Setting up a basic GitHub Actions workflow
-- Automating build and test processes
-- Discussing more advanced CI/CD concepts
+## Class 9: Monitoring Systems with Prometheus and Grafana
+- Introduction to monitoring in DevOps
+- Overview of Prometheus:
+  - Architecture and components
+  - Data model and metrics types
+  - Query language (PromQL) basics
+- Setting up Prometheus for our application
+- Introduction to Grafana:
+  - Dashboard creation
+  - Data visualization techniques
+- Integrating Prometheus with Grafana
 
-## Class 10: Scaling and Load Balancing
+Homework:
+- Set up Prometheus to monitor our application
+- Create custom metrics in the application
+- Design and implement Grafana dashboards for key performance indicators
+- Use PromQL to create meaningful alerts
 
-- Concepts of scaling in web applications
-- Using Docker Compose to run multiple instances of our application
-- Configuring nginx for load balancing
-- Testing and verifying load balanced setup
+## Class 10: Nginx Clustering and Load Balancing
+- Advanced Nginx configurations
+- Nginx clustering concepts
+- Load balancing strategies:
+  - Round-robin
+  - Least connections
+  - IP hash
+- Nginx Plus features overview (if applicable)
+- High availability setup with Nginx
 
-## Class 11: Environment Variables and Configuration Management
+Homework:
+- Implement an Nginx cluster with at least three nodes
+- Configure different load balancing strategies and test their performance
+- Implement a high availability solution using Nginx
+- Analyze and report on the performance differences between various setups
+
+## Class 11: Continuous Integration and Deployment (CI/CD)
+- Introduction to CI/CD principles
+- Overview of popular CI/CD tools (e.g., Jenkins, GitLab CI, GitHub Actions)
+- Setting up a CI/CD pipeline for our application
+- Automated testing and deployment strategies
+
+Homework:
+- Implement a CI/CD pipeline using a chosen tool
+- Include automated testing in the pipeline
+- Set up staging and production environments
+- Implement a blue-green or canary deployment strategy
+
+## Class 12: Infrastructure as Code (IaC) and Configuration Management
+- Introduction to IaC concepts
+- Overview of tools like Terraform and Ansible
+- Writing infrastructure as code for our application
+- Managing configurations across different environments
+
+Homework:
+- Create Terraform scripts to provision required infrastructure
+- Implement Ansible playbooks for configuration management
+- Use IaC to set up a complete environment for our application
+
+## Class 13: Microservices and Service Mesh
+- Introduction to microservices architecture
+- Decomposing our monolithic application into microservices
+- Introduction to service mesh (e.g., Istio)
+- Implementing service discovery and communication
+
+Homework:
+- Refactor a part of our application into microservices
+- Implement service-to-service communication
+- Set up a basic service mesh and demonstrate its benefits
+
+## Class 14: Final Project and Course Wrap-up
+- Review of key concepts
+- Final project presentation and discussion
+- Future learning paths in DevOps
+- Q&A session
+
+Final Project:
+- Design and implement a complete DevOps pipeline for our application
+- Incorporate all major concepts covered in the course
+- Present the solution, explaining design choices and trade-offs
+
+
+## Bonus Class 1: Environment Variables and Configuration Management
 
 - Importance of externalized configuration
 - Modifying our application to use environment variables
 - Managing configurations for different environments (dev, staging, prod)
 - Introduction to configuration management tools
 
-## Class 12: Basic Security Practices
+## Bonus Class 2: Basic Security Practices
 
 - Overview of web application security
 - Securing nginx (HTTPS, basic authentication)
 - Managing secrets and sensitive data
 - Basic application security practices
-
-## Throughout the Course
-
-Use various endpoints in our application to demonstrate different aspects of system behavior and DevOps practices:
-
-- /cpu/load: Demonstrate need for monitoring and autoscaling
-- /memory endpoints: Discuss resource allocation in containerized environments
-- /io endpoints: Discuss storage considerations in cloud environments
-
-This course structure provides a comprehensive introduction to DevOps practices, utilizing our custom-built application as a practical, hands-on learning tool. It covers the basics of application deployment, containerization, server management, and introduces important DevOps tools and concepts.
