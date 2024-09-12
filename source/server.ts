@@ -1,10 +1,12 @@
 /* eslint-disable @typescript-eslint/prefer-nullish-coalescing, @typescript-eslint/strict-boolean-expressions */
 import fastify from 'fastify'
+import metricsPlugin from 'fastify-metrics'
 import prexit from 'prexit'
 import routes from './routes/index.ts'
 
 const DEFAULT_PORT = 3000
 const DEFAULT_HOST = '127.0.0.1'
+
 // biome-ignore lint/complexity/useLiteralKeys: tsc > biome
 const PORT = Number.parseInt(process.env['PORT'] || DEFAULT_PORT.toString(), 10)
 // biome-ignore lint/complexity/useLiteralKeys: tsc > biome
@@ -12,7 +14,13 @@ const HOST = process.env['HOST'] || DEFAULT_HOST
 
 const server = fastify()
 
-void server.register(routes)
+await server.register(routes)
+await server.register(metricsPlugin.default, {
+  endpoint: '/metrics',
+  routeMetrics: {
+    registeredRoutesOnly: false
+  }
+})
 
 server.listen({ port: PORT, host: HOST }, (err, address) => {
   if (err) {

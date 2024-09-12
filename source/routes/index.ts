@@ -10,14 +10,14 @@ import slowImageGallery from './problems/slowImageGallery.ts'
 
 // eslint-disable-next-line jsdoc/require-jsdoc
 const routes: FastifyPluginAsync = async (fastify: FastifyInstance) => {
-  void fastify.register(cpu)
-  void fastify.register(io)
-  void fastify.register(mem)
-  void fastify.register(ping)
-  void fastify.register(time)
-  void fastify.register(limitedConnectionsPool)
-  void fastify.register(slowImage)
-  void fastify.register(slowImageGallery)
+  await fastify.register(cpu)
+  await fastify.register(io)
+  await fastify.register(mem)
+  await fastify.register(ping)
+  await fastify.register(time)
+  await fastify.register(limitedConnectionsPool)
+  await fastify.register(slowImage)
+  await fastify.register(slowImageGallery)
 }
 
 export default routes
