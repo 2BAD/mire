@@ -1,11 +1,11 @@
-import type { FastifyPluginAsync } from 'fastify';
-import { performance } from 'node:perf_hooks';
-import { slowImageGeneration } from '~/simulate/load.ts';
+import type { FastifyPluginAsync } from 'fastify'
+import { performance } from 'node:perf_hooks'
+import { slowImageGeneration } from '~/simulate/load.ts'
 
 // eslint-disable-next-line jsdoc/require-jsdoc
 export const slowImage: FastifyPluginAsync = async (fastify) => {
-  fastify.get<{ Querystring: { complexity: string, name: string } }>('/problems/slow-image', async (request, reply) => {
-    const complexity = parseInt(request.query.complexity || '1', 10)
+  fastify.get<{ Querystring: { complexity: string; name: string } }>('/problems/slow-image', async (request, reply) => {
+    const complexity = Number.parseInt(request.query.complexity || '1', 10)
     const name = request.query.name || 'default'
 
     const startTime = performance.now()

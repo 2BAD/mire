@@ -3,6 +3,20 @@ import type { FastifyPluginAsync } from 'fastify'
 // eslint-disable-next-line jsdoc/require-jsdoc
 export const imageGalleryRoute: FastifyPluginAsync = async (fastify) => {
   fastify.get('/problems/slow-image-gallery', async (_, reply) => {
+    const imageContainer = (i: number): string => {
+      return `
+            <div class="image-container">
+              <div class="loading">Loading...</div>
+              <img src="/problems/slow-image?complexity=${i}" alt="Slow image ${i}" loading="lazy" onload="this.previousElementSibling.style.display='none';">
+            </div>
+          `
+    }
+
+    const gallery = Array.from({ length: 9 })
+      .map((_, i) => i + 1)
+      .map((i) => imageContainer(i))
+      .join('')
+
     const html = `
       <!DOCTYPE html>
       <html lang="en">
@@ -21,12 +35,7 @@ export const imageGalleryRoute: FastifyPluginAsync = async (fastify) => {
       <body>
         <h1>Slow Loading Image Gallery</h1>
         <div class="gallery">
-          ${ Array.from({length: 9}).map((_, i) => i + 1).map(i => `
-            <div class="image-container">
-              <div class="loading">Loading...</div>
-              <img src="/problems/slow-image?complexity=${i}" alt="Slow image ${i}" loading="lazy" onload="this.previousElementSibling.style.display='none';">
-            </div>
-          `).join('')}
+          ${gallery}
         </div>
         <script>
           document.addEventListener('DOMContentLoaded', () => {

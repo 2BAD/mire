@@ -83,8 +83,8 @@ export const slowImageGeneration = async (
         ctx.fillStyle = `#${hash.slice(i * 6, (i + 1) * 6)}`
         ctx.beginPath()
         ctx.arc(
-          parseInt(hash.slice(i * 2, i * 2 + 2), 16) * 300 / 255,
-          parseInt(hash.slice(i * 2 + 2, i * 2 + 4), 16) * 300 / 255,
+          (Number.parseInt(hash.slice(i * 2, i * 2 + 2), 16) * 300) / 255,
+          (Number.parseInt(hash.slice(i * 2 + 2, i * 2 + 4), 16) * 300) / 255,
           20 + i * 10,
           0,
           Math.PI * 2
