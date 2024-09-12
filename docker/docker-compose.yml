@@ -1,0 +1,67 @@
+x-base: &base
+  restart: unless-stopped
+  # network_mode: host
+  # env_file: defaults.env
+
+services:
+  mire:
+    <<: *base
+    container_name: mire
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.mire
+    ports:
+      - ${MIRE_PORT}:${MIRE_PORT}
+    environment:
+      NODE_ENV: production
+      HOST: ${MIRE_HOST}
+      PORT: ${MIRE_PORT}
+
+  nginx:
+    <<: *base
+    container_name: nginx
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - mire
+
+  nginx-exporter:
+    <<: *base
+    container_name: nginx-exporter
+    image: nginx/nginx-prometheus-exporter
+    command:
+      - -nginx.scrape-uri=http://nginx/metrics
+    ports:
+      - "9113:9113"
+    depends_on:
+      - nginx
+
+  prometheus:
+    <<: *base
+    container_name: prometheus
+    image: prom/prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    depends_on:
+      - nginx
+
+  grafana:
+    <<: *base
+    container_name: grafana
+    image: grafana/grafana
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./grafana/dashboards:/var/lib/grafana/dashboards
+      - ./grafana/provisioning:/etc/grafana/provisioning
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    depends_on:
+      - prometheus
