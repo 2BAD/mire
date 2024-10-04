@@ -1,5 +1,5 @@
 # Canvas builder stage
-FROM node:20-alpine AS canvas
+FROM node:20.18.0-alpine@sha256:eb37f58646a901dc7727cf448cae36daaefaba79de33b5058dab79aa4c04aefb AS canvas
 
 # Install build dependencies for node-canvas
 RUN apk add --no-cache build-base cairo-dev pango-dev jpeg-dev giflib-dev librsvg-dev
@@ -15,7 +15,7 @@ RUN npm install canvas@next
 
 
 # Main build stage
-FROM node:20-alpine AS builder
+FROM node:20.18.0-alpine@sha256:eb37f58646a901dc7727cf448cae36daaefaba79de33b5058dab79aa4c04aefb AS builder
 
 # Set working directory
 WORKDIR /app
@@ -34,7 +34,7 @@ COPY . .
 RUN npm run build
 
 # Production stage
-FROM node:20-alpine AS production
+FROM node:20.18.0-alpine@sha256:eb37f58646a901dc7727cf448cae36daaefaba79de33b5058dab79aa4c04aefb AS production
 
 # Set working directory
 WORKDIR /app
