@@ -47,33 +47,33 @@
     "test:unit": "vitest run unit --coverage"
   },
   "dependencies": {
-    "canvas": "3.0.0-rc2",
-    "fastify": "4.28.1",
+    "canvas": "3.1.0",
+    "fastify": "4.29.1",
     "fastify-metrics": "11.0.0",
     "prexit": "2.3.0"
   },
   "devDependencies": {
-    "@2bad/axiom": "1.0.0-beta.5",
+    "@2bad/axiom": "1.0.0-beta.15",
     "@2bad/tsconfig": "3.0.1",
     "@2bad/tsfix": "0.1.0",
-    "@biomejs/biome": "1.8.3",
-    "@swc/cli": "0.4.0",
-    "@swc/core": "1.7.25",
-    "@types/node": "20.16.5",
-    "@vitest/coverage-v8": "2.0.5",
-    "npm-run-all2": "6.2.2",
+    "@biomejs/biome": "1.9.4",
+    "@swc/cli": "0.7.3",
+    "@swc/core": "1.11.24",
+    "@types/node": "20.17.32",
+    "@vitest/coverage-v8": "2.1.9",
+    "npm-run-all2": "6.2.6",
     "rimraf": "6.0.1",
-    "tsc-alias": "1.8.10",
-    "typescript": "5.6.2",
-    "vite-tsconfig-paths": "5.0.1",
-    "vitest": "2.0.5"
+    "tsc-alias": "1.8.15",
+    "typescript": "5.8.3",
+    "vite-tsconfig-paths": "5.1.4",
+    "vitest": "2.1.9"
   },
-  "packageManager": "npm@10.8.3",
+  "packageManager": "npm@10.9.2",
   "engines": {
     "node": ">=20"
   },
   "volta": {
-    "node": "22.8.0",
-    "npm": "10.8.3"
+    "node": "22.15.0",
+    "npm": "10.9.2"
   }
 }
