@@ -33,7 +33,7 @@ services:
   nginx-exporter:
     <<: *base
     container_name: nginx-exporter
-    image: nginx/nginx-prometheus-exporter
+    image: nginx/nginx-prometheus-exporter@sha256:6edfb73afd11f2d83ea4e8007f5068c3ffaa38078a6b0ad1339e5bd2f637aacd
     command:
       - -nginx.scrape-uri=http://nginx/metrics
     ports:
@@ -44,7 +44,7 @@ services:
   prometheus:
     <<: *base
     container_name: prometheus
-    image: prom/prometheus
+    image: prom/prometheus@sha256:339ce86a59413be18d0e445472891d022725b4803fab609069110205e79fb2f1
     ports:
       - "9090:9090"
     volumes:
@@ -55,7 +55,7 @@ services:
   grafana:
     <<: *base
     container_name: grafana
-    image: grafana/grafana
+    image: grafana/grafana@sha256:52c3e20686b860c6dc1f623811565773cf51eefa378817a4896dfc863c3c82c8
     ports:
       - "3000:3000"
     volumes:
