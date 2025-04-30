@@ -3,6 +3,7 @@ import type { FastifyPluginAsync } from 'fastify'
 // eslint-disable-next-line jsdoc/require-jsdoc
 export const imageGalleryRoute: FastifyPluginAsync = async (fastify) => {
   fastify.get('/problems/slow-image-gallery', async (_, reply) => {
+    // eslint-disable-next-line jsdoc/require-jsdoc
     const imageContainer = (i: number): string => {
       return `
             <div class="image-container">
@@ -53,5 +54,3 @@ export const imageGalleryRoute: FastifyPluginAsync = async (fastify) => {
     await reply.type('text/html').send(html)
   })
 }
-
-export default imageGalleryRoute

@@ -53,5 +53,3 @@ export const limitedConnectionsPool: FastifyPluginAsync = async (fastify) => {
     }
   })
 }
-
-export default limitedConnectionsPool

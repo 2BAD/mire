@@ -67,7 +67,7 @@
   },
   "packageManager": "npm@11.3.0",
   "engines": {
-    "node": ">=20"
+    "node": ">=21.0.0"
   },
   "volta": {
     "node": "22.15.0",

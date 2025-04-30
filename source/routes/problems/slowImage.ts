@@ -21,5 +21,3 @@ export const slowImage: FastifyPluginAsync = async (fastify) => {
       .send(imageBuffer)
   })
 }
-
-export default slowImage
