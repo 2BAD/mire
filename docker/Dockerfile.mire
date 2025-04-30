@@ -47,7 +47,7 @@ COPY package*.json ./
 
 # Install production dependencies
 RUN npm un canvas && rm -rf node_modules && npm cache clean --force
-RUN npm ci --only=production && npm cache clean --force
+RUN npm ci --omit=dev && npm cache clean --force
 
 # Copy the built canvas module from canvas
 COPY --from=canvas /canvas/node_modules/canvas ./node_modules/canvas
