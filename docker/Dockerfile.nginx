@@ -1,4 +1,4 @@
-FROM nginx:mainline@sha256:d5f28ef21aabddd098f3dbc21fe5b7a7d7a184720bc07da0b6c9b9820e97f25e AS builder
+FROM nginx:mainline@sha256:8adbdcb969e2676478ee2c7ad333956f0c8e0e4c5a7463f4611d7a2e7a7ff5dc AS builder
 
 # Install necessary build tools
 RUN apt-get update && apt-get install -y wget build-essential libpcre3-dev zlib1g-dev libssl-dev
@@ -16,7 +16,7 @@ RUN cd nginx-$NGINX_VERSION && \
     ./configure --with-compat --add-dynamic-module=../nginx-module-vts-0.2.2 && \
     make modules
 
-FROM nginx:mainline@sha256:d5f28ef21aabddd098f3dbc21fe5b7a7d7a184720bc07da0b6c9b9820e97f25e
+FROM nginx:mainline@sha256:8adbdcb969e2676478ee2c7ad333956f0c8e0e4c5a7463f4611d7a2e7a7ff5dc
 
 # Copy the compiled module
 COPY --from=builder /nginx-$NGINX_VERSION/objs/ngx_http_vhost_traffic_status_module.so /usr/lib/nginx/modules/
