@@ -33,7 +33,7 @@ services:
   nginx-exporter:
     <<: *base
     container_name: nginx-exporter
-    image: nginx/nginx-prometheus-exporter@sha256:6edfb73afd11f2d83ea4e8007f5068c3ffaa38078a6b0ad1339e5bd2f637aacd
+    image: nginx/nginx-prometheus-exporter@sha256:bf76e58df548a13e52bd543ac70f6d3d667e14884e8b51c149bd81994ca75ccd
     command:
       - -nginx.scrape-uri=http://nginx/metrics
     ports:
