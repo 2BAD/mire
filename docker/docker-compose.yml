@@ -55,7 +55,7 @@ services:
   grafana:
     <<: *base
     container_name: grafana
-    image: grafana/grafana@sha256:0f86bada30d65ef9d0183b90c1e2682ac92d53d95da8bed322b984ea78a4a73a
+    image: grafana/grafana@sha256:1c1bd67c54c5fcf6e759897852b5a584191bd6796e8d328a5ace457799801261
     ports:
       - "3000:3000"
     volumes:
