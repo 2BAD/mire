@@ -65,12 +65,12 @@
     "vite-tsconfig-paths": "5.1.4",
     "vitest": "3.2.7"
   },
-  "packageManager": "npm@11.21.2",
+  "packageManager": "npm@11.21.3",
   "engines": {
     "node": ">=21.0.0"
   },
   "volta": {
     "node": "22.23.5",
-    "npm": "11.21.2"
+    "npm": "11.21.3"
   }
 }
